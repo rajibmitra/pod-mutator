@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pod-mutator
+  labels:
+    run: pod-mutator
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      run: pod-mutator
+  template:
+    metadata:
+      labels:
+        run: pod-mutator
+    spec:
+      containers:
+      - name: pod-mutator
+        image: docker.io/rajibmi/pod_mutator:0.1
+        ports:
+        - containerPort: 8443
+        volumeMounts:
+        - name: webhook-certs
+          mountPath: /etc/webhook/certs
+          readOnly: true
+      volumes:
+      - name: webhook-certs
+        secret:
+          secretName: webhook-server-cert
