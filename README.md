@@ -90,7 +90,7 @@ Ensure that you have a `kind-config.yaml` file with appropriate cluster configur
 1. Deploy the MutatingWebhookConfiguration:
 
    ```shell
-   kubectl apply -f deploy/mutatingwebhook.yaml
+   kubectl apply -f webhook-config.yaml
    ```
 
 2. Create a secret to store TLS certificates:
@@ -104,7 +104,7 @@ Ensure that you have a `kind-config.yaml` file with appropriate cluster configur
 1. Deploy a sample pod to test the webhook server:
 
    ```shell
-   kubectl apply -f deploy/test-pod.yaml
+   kubectl apply -f test-pod.yaml
    ```
 
 2. Check the logs of the webhook server pod for debugging:
@@ -120,13 +120,13 @@ To clean up the resources created for testing:
 1. Delete the test pod:
 
    ```shell
-   kubectl delete -f deploy/test-pod.yaml
+   kubectl delete -f test-pod.yaml
    ```
 
 2. Delete the MutatingWebhookConfiguration:
 
    ```shell
-   kubectl delete -f deploy/mutatingwebhook.yaml
+   kubectl delete -f webhook-config.yaml
    ```
 
 3. Delete the secret:
