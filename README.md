@@ -1,5 +1,39 @@
-# pod-mutator
-This is pod mutator webhook example where each new pod will have its own label which is predefined. 
+## Pod Mutator
+
+In Kubernetes, a Mutating Webhook is a resource that allows you to intercept requests to the Kubernetes API server and modify them before they are persisted or admitted into the cluster. This capability is powerful for enforcing policies and making dynamic changes to resources.
+
+In this project, we are creating a Mutating Webhook that specifically targets pods. The webhook server will intercept requests to create or update pods and apply custom logic to modify the pod specifications before they are admitted to the Kubernetes cluster.
+
+## GoLang Code
+
+The GoLang code in this project serves as the foundation for the Mutating Webhook Server. Let's break down the key components of the code:
+
+1. **Dockerfile**: The `Dockerfile` defines how the GoLang application is containerized. It starts by using the official Go image as a parent image and sets up the working directory inside the container.
+
+2. **Building the Webhook Server**:
+   - The code is copied into the container.
+   - The project's Go module files (`go.mod` and `go.sum`) are copied to ensure dependencies are available.
+   - The Go module dependencies are downloaded using `go mod tidy` and `go mod download`.
+   - The code is compiled for a specific target platform (in this case, `linux/amd64`) using `CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build`. The resulting binary is named `webhook-server`.
+
+3. **Creating the Final Image**:
+   - A minimal Alpine Linux image is used as the base image.
+   - Certificates are installed to ensure secure communication.
+   - The compiled `webhook-server` binary is copied from the builder image to the final image.
+
+4. **Entrypoint**: The `ENTRYPOINT` instruction specifies the command that should be executed when the container starts. In this case, it runs the `webhook-server`.
+
+## Building the Docker Image
+
+To build the Docker image, we use the `docker build` command with the `--platform linux/amd64` flag to specify the target platform. This ensures that the image is built for the `linux/amd64` platform, which is common for many development environments.
+
+## Testing Locally
+
+For local testing, we recommend using a Kind (Kubernetes in Docker) cluster. You can create a Kind cluster and deploy the Mutating Webhook Server as described in the README. The webhook server will intercept and modify pod specifications according to your custom logic.
+
+Testing is facilitated by deploying a sample pod that triggers the webhook server. The server's logs can be checked to verify its behavior.
+
+In summary, this project creates a Mutating Webhook Server using GoLang that intercepts pod creation and update requests in Kubernetes, applies custom logic to modify pod specifications, and provides a secure and reusable solution for policy enforcement and dynamic configuration in a Kubernetes cluster.
 
 
 ```markdown
