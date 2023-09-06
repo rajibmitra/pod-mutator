@@ -4,6 +4,9 @@ In Kubernetes, a Mutating Webhook is a resource that allows you to intercept req
 
 In this project, we are creating a Mutating Webhook that specifically targets pods. The webhook server will intercept requests to create or update pods and apply custom logic to modify the pod specifications before they are admitted to the Kubernetes cluster.
 
+![Uploading image.png…]()
+
+
 ## GoLang Code
 
 The GoLang code in this project serves as the foundation for the Mutating Webhook Server. Let's break down the key components of the code:
